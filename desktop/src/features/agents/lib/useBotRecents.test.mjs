@@ -34,9 +34,9 @@ test("pickQuickBotPersonas prefers recents before defaults", () => {
 
 test("pickQuickBotPersonas seeds the three starter agents", () => {
   const personas = [
-    createPersona("builtin:bumble", "Bumble"),
-    createPersona("builtin:honey", "Honey"),
-    createPersona("builtin:fizz", "Fizz"),
+    createPersona("builtin:bumble", "Nova"),
+    createPersona("builtin:honey", "Sage"),
+    createPersona("builtin:fizz", "Aria"),
     createPersona("builtin:reviewer", "Reviewer"),
   ];
 

@@ -189,7 +189,7 @@ function catalogAvatarUrl(avatarUrl) {
 // render on another member's machine. Dropping it left shared agents looking
 // avatar-less in the catalog.
 test("test_percent_encoded_emoji_svg_avatar_survives_the_catalog", () => {
-  const emojiAvatar = emojiAvatarDataUrl("🐝", "#FFCC00");
+  const emojiAvatar = emojiAvatarDataUrl(">", "#A100FF");
 
   assert.equal(catalogAvatarUrl(emojiAvatar), emojiAvatar);
 });

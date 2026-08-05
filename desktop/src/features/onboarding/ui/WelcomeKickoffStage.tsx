@@ -11,11 +11,11 @@ type StageCharacter = {
   animationUrl: string;
 };
 
-/** Same animated APNGs the "Meet your starter team" onboarding step uses. */
+/** Same starter-team avatars the "Meet your starter team" onboarding step uses. */
 const STAGE_CHARACTERS: readonly StageCharacter[] = [
-  { name: "Fizz", animationUrl: "/onboarding/starter-team/fizz.png" },
-  { name: "Honey", animationUrl: "/onboarding/starter-team/honey.png" },
-  { name: "Bumble", animationUrl: "/onboarding/starter-team/bumble.png" },
+  { name: "Aria", animationUrl: "/onboarding/starter-team/aria.png" },
+  { name: "Sage", animationUrl: "/onboarding/starter-team/sage.png" },
+  { name: "Nova", animationUrl: "/onboarding/starter-team/nova.png" },
 ];
 
 const STAGE_EXIT_ANIMATION = "motion-kickoff-stage-exit";

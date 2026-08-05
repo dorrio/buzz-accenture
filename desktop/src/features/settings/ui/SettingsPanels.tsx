@@ -241,7 +241,19 @@ export const settingsSections: SettingsSectionDescriptor[] = [
   },
 ];
 
+/**
+ * Display-name overrides for themes whose stable key differs from the brand
+ * label shown in the picker. The keys ("buzz" / "buzz-dark") remain the
+ * internal identifiers; only the visible label changes.
+ */
+const THEME_LABEL_OVERRIDES: Record<string, string> = {
+  buzz: "Accenture",
+  "buzz-dark": "Accenture Dark",
+};
+
 function formatThemeLabel(name: string): string {
+  const override = THEME_LABEL_OVERRIDES[name];
+  if (override) return override;
   return name
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -526,7 +538,7 @@ function ThemeSettingsCard() {
     >
       <SettingsSectionHeader
         title="Appearance"
-        description="Choose a theme for Buzz."
+        description="Choose a theme for Accenture Connect."
       />
 
       {/* Mode selector: System / Light / Dark */}

@@ -4,22 +4,22 @@ import 'package:buzz/shared/theme/theme.dart';
 
 void main() {
   group('default accent', () {
-    test('uses black on the default light scheme', () {
+    test('uses Accenture Purple on the default light scheme', () {
       final resolved = resolveSchemes(null, ThemeMode.light);
 
       final accented = applyAccent(resolved.light, defaultAccentIndex);
 
-      expect(accented.primary, const Color(0xFF000000));
+      expect(accented.primary, const Color(0xFFA100FF));
     });
 
-    test('uses the theme foreground on forced dark schemes', () {
+    test('uses Accenture Purple on forced dark schemes', () {
       final resolved = resolveSchemes('github-dark', ThemeMode.dark);
       final base = resolved.dark;
 
       final accented = applyAccent(base, defaultAccentIndex);
 
       expect(resolved.forcedMode, ThemeMode.dark);
-      expect(accented.primary, base.onSurface);
+      expect(accented.primary, const Color(0xFFC27DFF));
       expect(accented.primary, isNot(const Color(0xFF000000)));
       expect(
         _contrastRatio(accented.primary, accented.surface),

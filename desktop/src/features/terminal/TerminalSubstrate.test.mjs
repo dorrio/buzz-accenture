@@ -218,7 +218,7 @@ test("tab actions restore terminal input focus", async () => {
   const actions = [
     ["select", view.getByRole("tab")],
     ["close", view.getByLabelText("Close SHELL")],
-    ["new", view.getByLabelText("New Buzz Term tab")],
+    ["new", view.getByLabelText("New Accenture Connect Term tab")],
   ];
   for (const [label, target] of actions) {
     target.focus();

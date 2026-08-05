@@ -560,7 +560,7 @@ test("team cards use the thread-style overlapping avatar stack", async ({
   await installMockBridge(page, {
     personas: [
       {
-        avatarUrl: "/onboarding/starter-team/fizz.png",
+        avatarUrl: "/onboarding/starter-team/aria.png",
         id: personaIds[0],
         displayName: "Design",
         systemPrompt: "You design interfaces.",

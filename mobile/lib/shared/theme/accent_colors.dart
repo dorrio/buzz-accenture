@@ -27,9 +27,9 @@ const accentColors = [
   AccentColor(name: 'Red', light: Color(0xFFEF4444), dark: Color(0xFFF87171)),
   AccentColor(name: 'Pink', light: Color(0xFFEC4899), dark: Color(0xFFF472B6)),
   AccentColor(
-    name: 'Purple',
-    light: Color(0xFFA855F7),
-    dark: Color(0xFFC084FC),
+    name: 'Accenture',
+    light: Color(0xFFA100FF),
+    dark: Color(0xFFC27DFF),
   ),
   AccentColor(
     name: 'Indigo',
@@ -55,11 +55,11 @@ Color accentColorForScheme(ColorScheme scheme, int accentIndex) {
   return scheme.brightness == Brightness.light ? accent.light : accent.dark;
 }
 
-/// New default: Black.
+/// New default: Accenture Purple (index 6).
 ///
-/// Keep this at the end of [accentColors] so existing saved accent indexes keep
-/// pointing at the same colors.
-const defaultAccentIndex = 8;
+/// New accent colors must be appended to the end of [accentColors] so existing
+/// saved accent indexes keep pointing at the same colors.
+const defaultAccentIndex = 6;
 
 /// Legacy default: Catppuccin Mauve/the base theme primary.
 const legacyDefaultAccentIndex = -1;

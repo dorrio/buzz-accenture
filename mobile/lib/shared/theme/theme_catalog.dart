@@ -25,10 +25,16 @@ class ThemeColors {
   bool get isDark => bg.computeLuminance() < 0.5;
 
   /// Human-readable display name: 'catppuccin-mocha' → 'Catppuccin Mocha'.
-  String get displayName => name
-      .split('-')
-      .map((w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : w)
-      .join(' ');
+  String get displayName {
+    // First-party rebrand: the 'buzz' pair shows as "Accenture" in the UI while
+    // its catalog keys stay 'buzz'/'buzz-dark' for stored-selection compatibility.
+    if (name == 'buzz') return 'Accenture';
+    if (name == 'buzz-dark') return 'Accenture Dark';
+    return name
+        .split('-')
+        .map((w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : w)
+        .join(' ');
+  }
 }
 
 /// Known light theme names — used to show sun/moon icons before loading.

@@ -2082,7 +2082,7 @@ function buildMockConfigSurface(pubkey: string): {
   const buzzAgentSurface = {
     ...gooseSurface,
     runtimeId: "buzz-agent",
-    runtimeLabel: "Buzz Agent",
+    runtimeLabel: "Accenture Connect Agent",
     advanced: [],
     extensions: [],
     sources: {
@@ -2274,21 +2274,21 @@ function resetMockPersonas(config?: E2eConfig) {
   const builtInPersonas = [
     {
       id: "builtin:fizz",
-      display_name: "Fizz",
+      display_name: "Aria",
       avatar_url: null,
-      system_prompt: "You are Fizz.",
+      system_prompt: "You are Aria.",
     },
     {
       id: "builtin:honey",
-      display_name: "Honey",
+      display_name: "Sage",
       avatar_url: null,
-      system_prompt: "You are Honey.",
+      system_prompt: "You are Sage.",
     },
     {
       id: "builtin:bumble",
-      display_name: "Bumble",
+      display_name: "Nova",
       avatar_url: null,
-      system_prompt: "You are Bumble.",
+      system_prompt: "You are Nova.",
     },
   ];
   mockPersonas = builtInPersonas.map((persona) => ({
@@ -5189,7 +5189,7 @@ const MOCK_PROJECT_SEEDS = [
     dtag: "buzz",
     name: "buzz",
     description:
-      "Relay, desktop, and mobile clients for the Buzz community platform.",
+      "Relay, desktop, and mobile clients for the Accenture Connect community platform.",
     owner: MOCK_IDENTITY_PUBKEY,
     contributors: [ALICE_PUBKEY, BOB_PUBKEY, CHARLIE_PUBKEY],
     activityLevel: 4,
@@ -7444,14 +7444,14 @@ async function handleDiscoverAcpRuntimes(
     },
     {
       id: "buzz-agent",
-      label: "Buzz Agent",
+      label: "Accenture Connect Agent",
       avatar_url: "",
       availability: "available",
       command: "buzz-agent",
       binary_path: "/usr/local/bin/buzz-agent",
       default_args: [],
       mcp_command: "buzz-dev-mcp",
-      install_hint: "Ships with the Buzz desktop app.",
+      install_hint: "Ships with the Accenture Connect desktop app.",
       install_instructions_url: "https://github.com/block/buzz",
       can_auto_install: false,
       requires_external_cli: false,
@@ -8436,7 +8436,7 @@ async function handleStartManagedAgent(
         mockMeshState.models.some((model) => model.id === modelId));
     if (!hasLiveTarget) {
       throw new Error(
-        "Buzz shared compute cannot start because no live member is serving this model.",
+        "Accenture Connect shared compute cannot start because no live member is serving this model.",
       );
     }
   }
@@ -10691,7 +10691,7 @@ export function maybeInstallE2eTauriMocks() {
               name: "Gemma-4-E4B-it-Q4_K_M",
               size: "3.5GB",
               sizeGb: 3.5,
-              description: "Buzz-curated local agent model",
+              description: "Accenture Connect-curated local agent model",
               fit: "comfortable",
               installed: true,
               recommended: true,
@@ -11063,7 +11063,7 @@ export function maybeInstallE2eTauriMocks() {
               kind: "blob",
               size: 33120,
               preview_content:
-                "// Smart HTTP git transport\n// Handles upload-pack and receive-pack for Buzz git repos.\n",
+                "// Smart HTTP git transport\n// Handles upload-pack and receive-pack for Accenture Connect git repos.\n",
             },
           ],
         };
@@ -11076,7 +11076,7 @@ export function maybeInstallE2eTauriMocks() {
           commit_body: [
             "See the [project guide](https://example.com/project-guide).",
             "",
-            "![Architecture](/buzz.svg)",
+            "![Architecture](/accenture.svg)",
             "",
             "![Demo](https://example.com/project-demo.mp4)",
           ].join("\n"),
@@ -12020,7 +12020,7 @@ export function maybeInstallE2eTauriMocks() {
           }
           if (mockMeshState.models.length === 0) {
             throw new Error(
-              "no Buzz shared compute serving members are available",
+              "no Accenture Connect shared compute serving members are available",
             );
           }
         }
