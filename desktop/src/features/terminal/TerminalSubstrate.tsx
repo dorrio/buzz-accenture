@@ -484,7 +484,7 @@ export function TerminalSubstrate({
 
   return (
     <section
-      aria-label="Buzz Term"
+      aria-label="Accenture Connect Term"
       className="buzz-terminal-substrate"
       data-terminal-owner={owner}
       style={terminalStyle}
@@ -543,7 +543,7 @@ export function TerminalSubstrate({
             </div>
           ))}
           <button
-            aria-label="New Buzz Term tab"
+            aria-label="New Accenture Connect Term tab"
             className="buzz-terminal-new-tab"
             onClick={() => runTabAction(onNewSession)}
             type="button"
@@ -620,7 +620,9 @@ export function TerminalSubstrate({
         />
       </div>
       <div aria-live="polite" className="sr-only">
-        {owner === "terminal" ? "Buzz Term mode" : "Buzz mode"}
+        {owner === "terminal"
+          ? "Accenture Connect Term mode"
+          : "Accenture Connect mode"}
       </div>
     </section>
   );

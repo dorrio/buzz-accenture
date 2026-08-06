@@ -301,7 +301,7 @@ test("Welcome failure retries once before allowing starter channel setup to be s
   );
   await page.goto("/");
 
-  for (const name of ["fizz", "honey", "bumble"]) {
+  for (const name of ["aria", "sage", "nova"]) {
     const character = page.getByTestId(`starter-persona-${name}`);
     await expect(character).toBeVisible();
     await expect(character).toHaveAttribute(
@@ -310,7 +310,9 @@ test("Welcome failure retries once before allowing starter channel setup to be s
     );
   }
 
-  const enterButton = page.getByRole("button", { name: "Take me to Buzz" });
+  const enterButton = page.getByRole("button", {
+    name: "Take me to Accenture Connect",
+  });
   await enterButton.click();
 
   await expect(page.getByText(`${welcomeError} Try again.`)).toBeVisible();

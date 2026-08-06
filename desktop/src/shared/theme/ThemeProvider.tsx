@@ -46,7 +46,10 @@ export const ACCENT_COLORS = [
   { name: "Indigo", value: "#6366f1" },
 ] as const;
 
-const DEFAULT_ACCENT = "#3b82f6";
+/** Accenture Purple — the fixed brand accent for the Accenture Connect themes. */
+const ACCENTURE_ACCENT = "#a100ff";
+
+const DEFAULT_ACCENT = ACCENTURE_ACCENT;
 
 type ThemeContextValue = {
   themeName: string;
@@ -214,25 +217,26 @@ function applyAccentColor(value: string) {
 }
 
 /**
- * The Buzz themes ship with a fixed neutral accent (the GitHub black/white
- * foreground) rather than a user-selectable accent color. When a Buzz theme is
- * active we force `NEUTRAL_ACCENT` regardless of the stored preference, and the
- * appearance panel hides the accent picker. The user's chosen accent is left
- * untouched in storage so it returns when they switch back to another theme.
+ * The Accenture Connect themes ship with a fixed Accenture Purple brand accent
+ * rather than a user-selectable accent color. When one is active we force
+ * `ACCENTURE_ACCENT` regardless of the stored preference, and the appearance
+ * panel hides the accent picker. The user's chosen accent is left untouched in
+ * storage so it returns when they switch back to another theme.
  */
 export function isBuzzTheme(themeName: string): boolean {
   return themeName === "buzz" || themeName === "buzz-dark";
 }
 
 /**
- * Resolve the accent to actually apply for a theme: Buzz themes are pinned to
- * the neutral accent; every other theme uses the stored/selected accent.
+ * Resolve the accent to actually apply for a theme: the Accenture Connect
+ * themes are pinned to the fixed Accenture Purple brand accent; every other
+ * theme uses the stored/selected accent.
  */
 function resolveEffectiveAccent(
   themeName: string,
   accentColor: string,
 ): string {
-  return isBuzzTheme(themeName) ? NEUTRAL_ACCENT : accentColor;
+  return isBuzzTheme(themeName) ? ACCENTURE_ACCENT : accentColor;
 }
 
 /**

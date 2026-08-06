@@ -17,11 +17,13 @@ const buzzDarkThemeName = 'buzz-dark';
 bool isBuzzTheme(String themeName) =>
     themeName == buzzThemeName || themeName == buzzDarkThemeName;
 
-/// Gradient stops, matching desktop's `--buzz-gradient-*` custom properties.
-const _lightTop = Color(0xFFE6E6B6);
-const _lightBottom = Color(0xFFC4D0DA);
-const _darkTop = Color(0xFF4A4616);
-const _darkBottom = Color(0xFF0A1423);
+/// Gradient stops, matching desktop's `--buzz-gradient-*` custom properties
+/// (Accenture Connect brand gradient: soft lavender in light, deep purple to
+/// near-black in dark).
+const _lightTop = Color(0xFFE9D8FF);
+const _lightBottom = Color(0xFFF4EEFB);
+const _darkTop = Color(0xFF2A0A4D);
+const _darkBottom = Color(0xFF0A0713);
 
 /// The Buzz gradient for the app's top section, or null when [themeName] is not
 /// a Buzz theme — in which case the section keeps its default frosted fill.
