@@ -83,6 +83,7 @@ import { ModerationQueueCard } from "./ModerationQueueCard";
 import { NotificationSettingsCard } from "./NotificationSettingsCard";
 import { PreventSleepSettingsCard } from "./PreventSleepSettingsCard";
 import { AgentDefaultsSettingsCard } from "./AgentDefaultsSettingsCard";
+import { HOSTED_COMMUNITIES_ENABLED } from "@/shared/config/featureFlags";
 import { HostedCommunitiesSettingsCard } from "./HostedCommunitiesSettingsCard";
 import { SettingsOptionGroup, SettingsOptionRow } from "./SettingsOptionGroup";
 import { ProfileSettingsCard } from "./ProfileSettingsCard";
@@ -207,11 +208,15 @@ export const settingsSections: SettingsSectionDescriptor[] = [
     label: "Shortcuts",
     icon: Keyboard,
   },
-  {
-    value: "hosted-communities",
-    label: "Hosted communities",
-    icon: MessagesSquare,
-  },
+  ...(HOSTED_COMMUNITIES_ENABLED
+    ? ([
+        {
+          value: "hosted-communities",
+          label: "Hosted communities",
+          icon: MessagesSquare,
+        },
+      ] as SettingsSectionDescriptor[])
+    : []),
   {
     value: "community-members",
     label: "Invites",
@@ -901,7 +906,9 @@ export function renderSettingsSection(
     case "shortcuts":
       return <KeyboardShortcutsCard />;
     case "hosted-communities":
-      return <HostedCommunitiesSettingsCard />;
+      return HOSTED_COMMUNITIES_ENABLED ? (
+        <HostedCommunitiesSettingsCard />
+      ) : null;
     case "community-members":
       return (
         <CommunityMembersSettingsCard currentPubkey={props.currentPubkey} />
