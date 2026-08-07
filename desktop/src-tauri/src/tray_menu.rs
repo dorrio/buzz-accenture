@@ -104,53 +104,46 @@ fn format_elapsed(elapsed: Duration) -> String {
     format!("{hours}h {minutes}m {seconds}s")
 }
 
-/// Builds the standalone Buzz bee as a transparent, macOS template image.
+/// Builds the Accenture chevron as a transparent, macOS template image.
 ///
 /// The app icon includes a rounded square, which is useful for the Dock but
-/// looks out of place beside the monochrome menu-bar icons. Keeping this
-/// vector-derived mask here also lets macOS tint it correctly in light and
-/// dark menu bars without a separate bitmap asset.
-fn tray_bee_icon() -> Image<'static> {
+/// looks out of place beside the monochrome menu-bar icons. Drawing the
+/// chevron mask here lets macOS tint it correctly in light and dark menu bars
+/// without a separate bitmap asset.
+fn tray_chevron_icon() -> Image<'static> {
     const WIDTH: u32 = 64;
-    const HEIGHT: u32 = 43;
+    const HEIGHT: u32 = 64;
     const SAMPLES_PER_AXIS: u32 = 4;
-    const BEE_WIDTH: f32 = 466.0;
-    const BEE_HEIGHT: f32 = 309.0;
 
-    fn circle_contains(x: f32, y: f32, center_x: f32, center_y: f32, radius: f32) -> bool {
-        let delta_x = x - center_x;
-        let delta_y = y - center_y;
-        delta_x * delta_x + delta_y * delta_y <= radius * radius
+    // Accenture "greater-than" chevron: two thick strokes meeting at a tip on
+    // the right. Coordinates are normalized to a [0,1] square so the stroke
+    // width stays visually uniform and the mark sits centered with padding.
+    const TIP_X: f32 = 0.73;
+    const MID_Y: f32 = 0.50;
+    const START_X: f32 = 0.27;
+    const TOP_Y: f32 = 0.18;
+    const BOTTOM_Y: f32 = 0.82;
+    const HALF_STROKE: f32 = 0.125;
+
+    fn dist_to_segment(px: f32, py: f32, ax: f32, ay: f32, bx: f32, by: f32) -> f32 {
+        let dx = bx - ax;
+        let dy = by - ay;
+        let len_sq = dx * dx + dy * dy;
+        let t = if len_sq <= f32::EPSILON {
+            0.0
+        } else {
+            (((px - ax) * dx + (py - ay) * dy) / len_sq).clamp(0.0, 1.0)
+        };
+        let closest_x = ax + t * dx;
+        let closest_y = ay + t * dy;
+        let delta_x = px - closest_x;
+        let delta_y = py - closest_y;
+        (delta_x * delta_x + delta_y * delta_y).sqrt()
     }
 
-    fn rounded_rect_contains(
-        x: f32,
-        y: f32,
-        left: f32,
-        top: f32,
-        width: f32,
-        height: f32,
-        radius: f32,
-    ) -> bool {
-        let right = left + width;
-        let bottom = top + height;
-        let closest_x = x.clamp(left + radius, right - radius);
-        let closest_y = y.clamp(top + radius, bottom - radius);
-        let delta_x = x - closest_x;
-        let delta_y = y - closest_y;
-        delta_x * delta_x + delta_y * delta_y <= radius * radius
-    }
-
-    fn bee_contains(x: f32, y: f32) -> bool {
-        let silhouette = circle_contains(x, y, 91.7, 154.5, 91.7)
-            || circle_contains(x, y, 374.3, 154.5, 91.7)
-            || rounded_rect_contains(x, y, 128.0, 0.0, 210.0, 309.0, 34.0);
-        let cutout = circle_contains(x, y, 193.3, 84.4, 27.0)
-            || circle_contains(x, y, 276.0, 84.4, 27.0)
-            || rounded_rect_contains(x, y, 166.3, 157.2, 136.9, 38.3, 5.0)
-            || rounded_rect_contains(x, y, 166.9, 235.1, 136.2, 37.6, 5.0);
-
-        silhouette && !cutout
+    fn chevron_contains(x: f32, y: f32) -> bool {
+        dist_to_segment(x, y, START_X, TOP_Y, TIP_X, MID_Y) <= HALF_STROKE
+            || dist_to_segment(x, y, START_X, BOTTOM_Y, TIP_X, MID_Y) <= HALF_STROKE
     }
 
     let mut rgba = vec![0; (WIDTH * HEIGHT * 4) as usize];
@@ -162,12 +155,10 @@ fn tray_bee_icon() -> Image<'static> {
             for sample_y in 0..SAMPLES_PER_AXIS {
                 for sample_x in 0..SAMPLES_PER_AXIS {
                     let x = (pixel_x as f32 + (sample_x as f32 + 0.5) / SAMPLES_PER_AXIS as f32)
-                        / WIDTH as f32
-                        * BEE_WIDTH;
+                        / WIDTH as f32;
                     let y = (pixel_y as f32 + (sample_y as f32 + 0.5) / SAMPLES_PER_AXIS as f32)
-                        / HEIGHT as f32
-                        * BEE_HEIGHT;
-                    if bee_contains(x, y) {
+                        / HEIGHT as f32;
+                    if chevron_contains(x, y) {
                         covered_samples += 1;
                     }
                 }
@@ -213,7 +204,9 @@ struct TrayMenuState<R: Runtime> {
 pub enum TrayAction {
     NewChannel,
     OpenChannel {
+        #[serde(rename = "channelId")]
         channel_id: String,
+        #[serde(rename = "communityGeneration")]
         community_generation: u64,
     },
 }
@@ -486,7 +479,7 @@ pub fn init<R: Runtime>(app: &AppHandle<R>) -> tauri::Result<()> {
     });
     let tray = TrayIconBuilder::with_id(TRAY_ID)
         .menu(&menu)
-        .icon(tray_bee_icon())
+        .icon(tray_chevron_icon())
         .icon_as_template(true)
         .on_menu_event(|app, event| handle_menu_event(app, event.id.as_ref()))
         .build(app)?;
@@ -613,6 +606,23 @@ pub fn update_tray_agent_activity<R: Runtime>(
 #[cfg(test)]
 mod tests {
     use super::{requeue_actions, TrayAction, TrayActionQueue};
+
+    #[test]
+    fn open_channel_action_serializes_with_frontend_field_names() {
+        let action = TrayAction::OpenChannel {
+            channel_id: "channel-123".into(),
+            community_generation: 7,
+        };
+
+        assert_eq!(
+            serde_json::to_value(action).expect("tray action should serialize"),
+            serde_json::json!({
+                "kind": "openChannel",
+                "channelId": "channel-123",
+                "communityGeneration": 7,
+            })
+        );
+    }
 
     #[test]
     fn stale_channel_actions_are_not_requeued_after_community_change() {

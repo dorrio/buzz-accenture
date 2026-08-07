@@ -20,7 +20,6 @@ import {
   useEncryptedBackupSession,
 } from "./EncryptedBackupCreator";
 import { IdentityKeyHelpDialog } from "./IdentityKeyHelpDialog";
-import { LandingBees } from "./LandingBees";
 import {
   NostrKeyImportForm,
   type NostrKeyImportStage,
@@ -178,7 +177,6 @@ export function MachineOnboardingFlow({
       data-testid="machine-onboarding-gate"
     >
       <StartupWindowDragRegion />
-      {page === "identity" ? <LandingBees /> : null}
       {isSecuritySubview ? (
         <div className="fixed inset-x-0 top-8 z-20 flex justify-center px-6">
           <Button

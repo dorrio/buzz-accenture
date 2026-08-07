@@ -2,6 +2,7 @@ import * as React from "react";
 import { Check, Copy } from "lucide-react";
 
 import { HostedCommunityOnboarding } from "@/features/communities/ui/HostedCommunityOnboarding";
+import { HOSTED_COMMUNITIES_ENABLED } from "@/shared/config/featureFlags";
 import { useCommunityOnboarding } from "@/features/onboarding/communityOnboarding";
 import { InviteRedeemForm } from "@/features/onboarding/ui/InviteRedeemForm";
 import { OnboardingChrome } from "@/features/onboarding/ui/OnboardingChrome";
@@ -27,7 +28,7 @@ type WelcomeTransitionMode = "initial" | OnboardingTransitionDirection;
 type WelcomeSetupProps = {
   initialPage?: WelcomeSetupPage;
   initialTransitionMode?: WelcomeTransitionMode;
-  onBack: () => void;
+  onBack?: () => void;
 };
 
 const COMMUNITY_OPTION_CARD_CLASS =
@@ -137,19 +138,21 @@ export function WelcomeSetup({
                     Join a community
                   </button>
                 </Card>
-                <Card
-                  asChild
-                  className={COMMUNITY_OPTION_CARD_CLASS}
-                  variant="textured"
-                >
-                  <button
-                    data-testid="community-choice-create"
-                    onClick={() => setIsHostedSignInOpen(true)}
-                    type="button"
+                {HOSTED_COMMUNITIES_ENABLED ? (
+                  <Card
+                    asChild
+                    className={COMMUNITY_OPTION_CARD_CLASS}
+                    variant="textured"
                   >
-                    Create a community
-                  </button>
-                </Card>
+                    <button
+                      data-testid="community-choice-create"
+                      onClick={() => setIsHostedSignInOpen(true)}
+                      type="button"
+                    >
+                      Create a community
+                    </button>
+                  </Card>
+                ) : null}
                 <Card
                   asChild
                   className={COMMUNITY_OPTION_CARD_CLASS}
@@ -164,17 +167,19 @@ export function WelcomeSetup({
                   </button>
                 </Card>
               </div>
-              <OnboardingFooter>
-                <Button
-                  className="h-9 rounded-full bg-foreground/10 px-6 hover:bg-foreground/15"
-                  data-testid="welcome-setup-back"
-                  onClick={onBack}
-                  type="button"
-                  variant="ghost"
-                >
-                  Back
-                </Button>
-              </OnboardingFooter>
+              {onBack ? (
+                <OnboardingFooter>
+                  <Button
+                    className="h-9 rounded-full bg-foreground/10 px-6 hover:bg-foreground/15"
+                    data-testid="welcome-setup-back"
+                    onClick={onBack}
+                    type="button"
+                    variant="ghost"
+                  >
+                    Back
+                  </Button>
+                </OnboardingFooter>
+              ) : null}
             </OnboardingSlideTransition>
           ) : page === "existing" ? (
             <OnboardingSlideTransition
@@ -192,19 +197,21 @@ export function WelcomeSetup({
                 </p>
               </div>
               <div className="flex w-full flex-1 translate-y-16 flex-col items-center justify-center gap-20 py-8">
-                <Card
-                  asChild
-                  className={COMMUNITY_OPTION_CARD_CLASS}
-                  variant="textured"
-                >
-                  <button
-                    data-testid="existing-choice-owner"
-                    onClick={() => setIsHostedSignInOpen(true)}
-                    type="button"
+                {HOSTED_COMMUNITIES_ENABLED ? (
+                  <Card
+                    asChild
+                    className={COMMUNITY_OPTION_CARD_CLASS}
+                    variant="textured"
                   >
-                    I own the community
-                  </button>
-                </Card>
+                    <button
+                      data-testid="existing-choice-owner"
+                      onClick={() => setIsHostedSignInOpen(true)}
+                      type="button"
+                    >
+                      I own the community
+                    </button>
+                  </Card>
+                ) : null}
                 <Card
                   asChild
                   className={COMMUNITY_OPTION_CARD_CLASS}
@@ -318,7 +325,9 @@ export function WelcomeSetup({
               </div>
             </OnboardingSlideTransition>
           )}
-          {isHostedSignInOpen && page !== "owned" ? (
+          {HOSTED_COMMUNITIES_ENABLED &&
+          isHostedSignInOpen &&
+          page !== "owned" ? (
             <HostedCommunityOnboarding
               onBack={() => setIsHostedSignInOpen(false)}
               onReady={() => {
