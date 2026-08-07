@@ -326,7 +326,7 @@
     --buzz-onboarding-emoji-picker-input: 255, 255, 255;
     --buzz-onboarding-avatar-dialog-bg: 255 255 255;
     --buzz-onboarding-avatar-accent-bg: 161 0 255;
-    --buzz-onboarding-avatar-accent-fg: 161 0 255;
+    --buzz-onboarding-avatar-accent-fg: 255 255 255;
     --buzz-onboarding-avatar-action-bg: 23 23 23;
     --buzz-onboarding-avatar-action-fg: 200 166 255;
     --buzz-onboarding-avatar-control-fg: 161 0 255;
@@ -436,7 +436,7 @@
     --buzz-onboarding-emoji-picker-input: 255, 255, 255;
     --buzz-onboarding-avatar-dialog-bg: 255 255 255;
     --buzz-onboarding-avatar-accent-bg: 161 0 255;
-    --buzz-onboarding-avatar-accent-fg: 161 0 255;
+    --buzz-onboarding-avatar-accent-fg: 255 255 255;
     --buzz-onboarding-avatar-action-bg: 23 23 23;
     --buzz-onboarding-avatar-action-fg: 200 166 255;
     --buzz-onboarding-avatar-control-fg: 161 0 255;
